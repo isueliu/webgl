@@ -1,0 +1,7 @@
+{
+  "name": "webgl",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "liuhanru <isuekey@163.com>",
+  "license": "MIT"
+}
