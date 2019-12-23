@@ -5,3 +5,7 @@
   * 问题组合的解决顺序
 
 # 初始化 #
+  * initial webglContext
+  * initial shader
+  * initial program
+  * binding data
