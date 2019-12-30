@@ -49,6 +49,7 @@ const initialShaderProgram = async (model, vsource, fsource) => {
 
 export {
   initialWebgl,
-  initialShaderProgram
+  initialShaderProgram,
+  WebglError,
 }
 

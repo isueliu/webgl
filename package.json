@@ -3,5 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "liuhanru <isuekey@163.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "gl-matrix": "^3.1.0"
+  }
 }

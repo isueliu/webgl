@@ -1,7 +1,6 @@
 
 import * as initial from '../../lib/initial.js';
-console.log('module js');
-
+import * as shaders from './shader.js';
 
 const main =async () => {
   const webgl = await initial.initialWebgl('#webgl');
@@ -10,7 +9,6 @@ const main =async () => {
   gl.clearColor(0, 0, 0, 1);
   gl.clear(gl.COLOR_BUFFER_BIT);
 };
-
 
 main();
 export {
