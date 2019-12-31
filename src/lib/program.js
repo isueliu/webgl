@@ -23,10 +23,34 @@ export class Program {
     };
     this.started = false;
     this.translate = trans;
+    this.data={};
+    this.dataIndex = 1;
   }
   addToApplication(gl) {
     this.gl = gl;
     return this;
+  }
+  addVertex(vertex, step, stride=0) {
+    const vertexData = {
+      vertex,
+      step,
+      sort: this.dataIndx,
+      stride,
+      size:vertex.length,
+    };
+    this.data[this.dataIndex++] = vertexData;
+    this.refineData();
+    return vertexData;
+  }
+  refineData () {
+    this.dataArray = Object.values(this.data).sort((a, b) => {
+      return a.sort - b.sort;
+    });
+    return this.dataArray;
+  }
+  removeVertex(index) {
+    delete(this.data[index]);
+    this.refineData();
   }
   async loadShader(type, source) {
     return loadShader(this.gl, type, source);
@@ -57,10 +81,7 @@ export class Program {
     return this;
   }
   play() {
-    this.initialBuffers();
     this.render();
-  }
-  initialBuffers() {
   }
   render() {
     this.gl.useProgram(this.program);
@@ -76,14 +97,15 @@ export class Program {
     mat4.perspective(projectionMatrix, fieldOfView, aspect, zNear, zFar);
     const modelViewMatrix = mat4.create();
     mat4.translate(modelViewMatrix, modelViewMatrix, this.translate);
-    const numComponents = 2;
     const type = gl.FLOAT;
     const normalize = false;
-    const stride = 0;
-    const offset = 0;
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
-    gl.vertexAttribPointer(this.vertexPosition, numComponents, type, normalize, stride, offset);
-    gl.enableVertexAttribArray(this.vertexPosition);
+    let offset = 0;
+    this.dataArray.forEach(ele => {
+      gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
+      gl.vertexAttribPointer(this.vertexPosition, ele.step, type, normalize, ele.stride, offset);
+      gl.enableVertexAttribArray(this.vertexPosition);
+      offset += ele.size;
+    });
     gl.uniformMatrix4fv(this.projectionMatrix, false, projectionMatrix);
     gl.uniformMatrix4fv(this.modelViewMatrix, false, modelViewMatrix);
     const drawOffset = 0;
